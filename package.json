@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@tiptap/core": "^2.10.3",
+    "@tiptap/react": "^2.10.3",
+    "@tiptap/starter-kit": "^2.10.3",
+    "bcrypt": "^5.1.1",
+    "ejs": "^3.1.10",
+    "express": "^4.21.0",
+    "express-session": "^1.18.1",
+    "mysql": "^2.18.1"
+  }
+}

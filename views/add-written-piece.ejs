@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="public/css/styles.css">
+    <!-- TipTap styles -->
+    <style>
+        #content-editor {
+            border: 1px solid #ced4da;
+            padding: 10px;
+            min-height: 150px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('partials/adminnav.ejs') %>
+
+    <div class="container">
+        <h2 class="article-title">Add</h2>
+        <form action="/add-blog" method="POST" class="blog-form" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="title">Blog Title:</label>
+                <input type="text" id="title" name="title" placeholder="Enter the blog title" required>
+            </div>
+            <div>
+                <label for="content">Blog Content:</label>
+                <!-- TipTap editor container -->
+                <div id="content-editor"></div>
+                <!-- Hidden input to store editor's data -->
+                <input type="hidden" id="content" name="content" required>
+            </div>
+            <div>
+                <label for="image">Blog Image:</label>
+                <input type="file" id="image" name="image" accept="image/*">
+            </div>
+            <div>
+                <button type="submit" class="submit-button">Submit Blog Post</button>
+            </div>
+        </form>
+    </div>
+    <h2 class="article-title">Edit Blog Entries</h2>
+    <div class="subtitle">
+        <p class="playfair-italic">Manage and update your blog entries.</p>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <% blogs.forEach(blog=> { %>
+            <div class="col-md-4 mb-4">
+                <div class="product-box">
+                    <form action="/written-pieces/edit/<%= blog.id %>" method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="title" name="title"
+                                value="<%= blog.title %>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="content" class="form-label">Content</label>
+                            <textarea class="form-control" id="content" name="content" rows="4"
+                                required><%= blog.content %></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <% if (blog.image) { %>
+                            <label for="currentImage" class="form-label">Current Image</label>
+                            <div class="mb-2">
+                                <img src="public/images/<%= blog.image %>" alt="Blog Image"
+                                    class="img-fluid rounded">
+                            </div>
+                            <% } else { %>
+                            <p class="text-muted">No image currently uploaded for this entry.</p>
+                            <% } %>
+                        </div>
+
+                        <!-- File input for uploading new image -->
+                        <div class="mb-3">
+                            <label for="imageUpload" class="form-label">Upload New Image</label>
+                            <input type="file" class="form-control" id="imageUpload" name="image"
+                                accept="image/*">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+
+                    <form action="/written-pieces/delete/<%= blog.id %>" method="POST" class="mt-2">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+    </div>
+
+    <%- include('partials/footer.ejs') %>
+
+    <!-- TipTap Scripts -->
+    <script type="module">
+        import { Editor } from '@tiptap/core';
+        import StarterKit from '@tiptap/starter-kit';
+
+        const editor = new Editor({
+            element: document.querySelector('#content-editor'),
+            extensions: [StarterKit],
+            content: '',
+            onUpdate: ({ editor }) => {
+                // Update hidden input with editor's content
+                const content = editor.getHTML();
+                document.querySelector('#content').value = content;
+            },
+        });
+    </script>
+</body>
+
+</html>

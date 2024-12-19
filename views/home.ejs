@@ -1,0 +1,77 @@
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+        <link href="https://fonts.googleapis.com/css2?family=Playfair&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet">
+       
+        <link rel="stylesheet" href="public/css/styles.css">
+    </head>
+    <body>
+        <%- include('partials/navbar1.ejs') %>
+        <div class="header-box row justify-content-center col text-center" style="background-color: #516E47; margin: 0; padding: 0px; text-align: center;">
+            <h2 style="color: white;">a solid solution to keep your home<br>cleaner and our <span style="font-size: 1.5em; font-family: 'Pinyon Script', cursive;">home</span> greener</h2>
+        </div>
+                </div>
+            <h3 style="color: #516E47; margin-top: 40px; padding-left: 20px;">Take a Look at</h3>
+        
+            <div class="scroll-container" style="display: flex; overflow-x: auto; white-space: nowrap; padding: 20px;">
+                <div class="scroll-item" style="text-align: center; margin-right: 70px;">
+                    <a href="eucasoap">
+                        <img src="/public/images/eucalyptus%20soap%20img.jpg" alt="Eucalyptus Soap" width="300" height="200">
+                        <span class="playfair-italic">Eucalyptus Solid Dish Soap</span>
+                    </a>
+                </div>
+                <div class="scroll-item" style="text-align: center; margin-right: 70px;">
+                    <a href="lemsoap">
+                        <img src="/public/images/lemon%20soap%20img.jpg" alt="Lemon Soap" width="300" height="200">
+                        <span class="playfair-italic">Lemon Solid Dish Soap</span>
+                    </a>
+                </div>
+                <div class="scroll-item" style="text-align: center; margin-right: 70px;">
+                    <a href="lavsoap">
+                        <img src="/public/images/lav%20soap%20img.jpg" alt="Lavender Soap" width="300" height="200">
+                        <span class="playfair-italic">Lavender Solid Dish Soap</span>
+                    </a>
+                </div>
+                <div class="scroll-item" style="text-align: center; margin-right: 70px;">
+                    <a href="candles">
+                        <img src="/public/images/candle%20pic.jpg" alt="Candles" width="300" height="200">
+                        <span class="playfair-italic">Candles</span>
+                    </a>
+                </div>
+            </div>
+                
+            <h3 style="color: #516E47; margin-top: 40px; padding-left: 20px;">Read More About</h3>
+            <div class="scroll-container-rounded">
+                <div style="text-align: center; margin-right: 70px;">
+                    <a href="whychoosesolid" class="scroll-item">
+                        <img src="/public/images/why choose solid img.jpg" alt="wcs" width="380" height="100">
+                        <span class="playfair-italic" style="display: block;">Why Choose Solid?</span>
+                    </a>
+                </div>
+                <div style="text-align: center; margin-right: 70px;">
+                    <a href="ourcandles" class="scroll-item">
+                        <img src="/public/images/our candles img.jpg" alt="our candles" width="380" height="100">
+                        <span class="playfair-italic" style="display: block;">Our Candles</span>
+                    </a>
+                </div>
+                <div style="text-align: center; margin-right: 70px;">
+                    <a href="maddiet" class="scroll-item">
+                        <img src="/public/images/mad diet.jpg" alt="maddiet" width="380" height="100">
+                        <span class="playfair-italic" style="display: block;">Making a Difference: Diet</span>
+                    </a>
+                </div>
+                <div style="text-align: center; margin-right: 70px;">
+                    <a href="madecoconsump" class="scroll-item">
+                        <img src="/public/images/mad eco cons.jpg" alt="madecocons" width="380" height="100">
+                        <span class="playfair-italic" style="display: block;">Making a Difference: Economic Consumption</span>
+                    </a>
+                </div>
+            </div>
+            
+            <%- include('partials/footer.ejs') %>
+        
+    </body>
+</html>
