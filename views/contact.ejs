@@ -5,6 +5,17 @@
 </head>
 <body>
     <%- include('partials/navbar2.ejs') %>
+
+    <h2 class="article-title">Subscribe to our email updates</h2>
+    <div class="subtitle">get notified when new articles come out</div>
+
+        <form action="/subscribe" method="POST" style="max-width: 600px; margin: auto; padding: 20px; background-color: #f9f9f9; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+            <div style="display: flex; gap: 10px;">
+                <input type="email" id="subscribeemail" class="playfair-italic" name="email" placeholder="Your Email" required style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc;">
+                <button type="submit" style="padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Subscribe</button>
+            </div>
+        </form>
+
     <h2 class="article-title">Contact</h2>
     <div class="subtitle">let us know any questions or thoughts you have.<br>
         you may suggest written topics, enquire about product purchases, etc.</div>

@@ -6,7 +6,7 @@ var conn = require('./dbConfig');
 app.set('view engine', 'ejs');
 app.use(session({
     secret: 'yoursecret',
-    resave: true,
+    resave: false,
     saveUninitialized: true
 }));
 
@@ -48,56 +48,50 @@ app.post('/reg', function (request, response) {
 });
 
 app.post('/auth', function (req, res) {
-    console.log('Login Request', req.body);
 
     // admin login
     conn.query('SELECT * FROM admins WHERE email = ? AND password = ?', [req.body.email, req.body.password], function (adminError, adminResults) {
-        // if (adminError) throw adminError;
-        console.log('Admin found in database', adminResults);
+        if (adminError) throw adminError;
 
         if (adminResults.length > 0) {
+            console.log('Admin found in database', adminResults);
             var admin = adminResults[0];
             console.log('Admin found', admin);
-
             req.session.email = req.body.email;
-        req.session.loggedIn = true;
-        req.session.isAdmin = true;
-        return res.redirect('/adminpage');
-        
-        } else if (req.session.loggedIn) {
-            res.status(403).send('Access denied. You do not have permission to view this page.');
-        } else {
-            res.status(401).send('Please log in as an admin to view this page.');
-        }
+            req.session.loggedIn = true;
+            req.session.isAdmin = true;
+            res.redirect('/adminpage');
+            console.log('admin loggedIn status', req.session.loggedIn);
 
-        });
+        } else { // Check if normal user
+            conn.query('SELECT * FROM users WHERE email = ?', [req.body.email], function (userError, userResults) {
+                if (userError) throw userError;
 
+                if (userResults.length > 0) {
+                    console.log('User found in user table in the database', userResults);
+                    var user = userResults[0];
+                    var userPasswordMatch = bcrypt.compareSync(req.body.password, user.password);
+                    console.log('Password Match', userPasswordMatch);
 
-        // not admin, user
-    conn.query('SELECT * FROM users WHERE email = ?', [req.body.email], function (userError, userResults) {
-        if (userError) throw userError;
-        console.log('User found in database', userResults);
-
-        if (userResults.length > 0) {
-            var user = userResults[0];
-            console.log('User', user);
-            var userPasswordMatch = bcrypt.compareSync(req.body.password, user.password);
-            console.log('Password Match', userPasswordMatch);
-
-            if (userPasswordMatch) {
-                req.session.email = req.body.email;
-                req.session.loggedIn = true;
-                req.session.isAdmin = false;
-                return res.redirect('/contact');
-            } else {
-                return res.redirect('/login');
-            }
-        } else {
-            res.send('User not found');
+                    if (userPasswordMatch) {
+                        req.session.email = req.body.email;
+                        req.session.loggedIn = true;
+                        req.session.isAdmin = false;
+                        res.render('contact');
+                    } else {
+                        res.render('login');
+                    }
+                } else {
+                    res.send('User not found');
+                }
+            });
         }
     });
+
+    console.log('loggedIn status', req.session.loggedIn);
 });
 
+// not admin, user
 app.get('/contact', function (req, res, next) {
     if (req.session.loggedIn) {
         res.render('contact');
@@ -122,18 +116,6 @@ app.get('/lavsoap', function (req, res) {
 app.get('/candles', function (req, res) {
     res.render("candles");
 });
-app.get('/whychoosesolid', function (req, res) {
-    res.render("whychoosesolid");
-});
-app.get('/ourcandles', function (req, res) {
-    res.render("ourcandles");
-});
-app.get('/maddiet', function (req, res) {
-    res.render("maddiet");
-});
-app.get('/madecoconsump', function (req, res) {
-    res.render("madecoconsump");
-});
 app.get('/products', function (req, res) {
     res.render("products");
 });
@@ -145,10 +127,10 @@ app.get('/written-pieces', (req, res) => {
             return res.status(500).send('Error fetching blog data');
         }
 
-        // Get the view from the query parameter (default to 'written-pieces')
+        // Get view from query parameter (default to 'written-pieces')
         const viewName = req.query.view || 'written-pieces';
 
-        // Render the appropriate view (it could be 'written-pieces', 'edit-written-piece', etc.)
+        // Render appropriate view ('written-pieces', 'edit-written-piece', etc.)
         res.render(viewName, { blogs: results });
     });
 });
